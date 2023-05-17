@@ -15,6 +15,10 @@ from donkeycar.utils import clamp
 
 logger = logging.getLogger(__name__)
 
+from serial import Serial
+import struct
+import crcmod
+
 try:
     import RPi.GPIO as GPIO
 except ImportError as e:
@@ -180,6 +184,54 @@ class PCA9685:
     def run(self, pulse):
         self.set_pulse(pulse)
 
+class GTK():
+    def __init__(self, serial_port):    
+        # Connect to the serial port
+        try:
+            self.ser = Serial(serial_port, 115200, timeout=1)
+        except:
+            print("Could not connect to the serial port")
+            exit(1)
+
+        # Set the crc16
+        self.crc16 = crcmod.mkCrcFun(0x11021, initCrc=0x0000, rev=False)
+
+        # Set the actuators to zero
+        self.set_vehicle_state(0, 0, 0)
+
+        # Set input values
+        self.steering = 0
+        self.throttle = 0
+
+        self.proposed_steering = 0
+        self.proposed_throttle = 0
+
+        self.packet_last_sent = time.time()
+
+    def run(self, steer, throttle):        
+        # Check if the values are in the correct range
+        if throttle < -1 or throttle > 1:
+            throttle = max(min(throttle, 1), -1)
+            # print(f'{Style.BRIGHT+Fore.YELLOW}Throttle value out of range, set to {throttle}{Style.RESET_ALL}')
+        if steer < -1 or steer > 1:
+            steer = max(min(steer, 1), -1)
+            # print(f'{Style.BRIGHT+Fore.YELLOW}Steer value out of range, set to {steer}{Style.RESET_ALL}')
+        
+        # Convert the floats to bytes
+        throttle = self.__float_to_byte(throttle)
+        steer = self.__float_to_byte(steer)
+        brake = self.__float_to_byte(0.0)
+
+        # Create the packet
+        payload = b'\xAB' + throttle + steer + brake
+        hash = self.crc16(payload).to_bytes(2, byteorder='little')
+        packet = b'\x02\x0D' + payload + hash +  b'\x03'
+
+        # Send the packet
+        self.ser.write(packet)
+    
+    def __float_to_byte(self, f):
+        return struct.pack('f', f).zfill(4)
 
 class VESC:
     ''' 
