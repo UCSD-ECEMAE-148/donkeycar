@@ -233,6 +233,9 @@ VESC_TIMEOUT= 0.05 # timeout for the serial communication
 VESC_STEERING_SCALE= 0.5 # VESC accepts steering inputs from 0 to 1. Joystick is usually -1 to 1. This changes it to -0.5 to 0.5
 VESC_STEERING_OFFSET = 0.5 # VESC accepts steering inputs from 0 to 1. Coupled with above change we move Joystick to 0 to 1
 
+# GTK ucsd kart
+GTK_SERIAL_PORT = "/dev/ttyUSB0"
+
 #
 # DC_STEER_THROTTLE with one motor as steering, one as drive
 # - uses L298N type motor controller in two pin wiring
