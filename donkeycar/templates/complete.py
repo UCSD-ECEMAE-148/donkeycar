@@ -829,7 +829,6 @@ def add_imu(V, cfg):
 # Drive train setup
 #
 def add_drivetrain(V, cfg):
-    print("Adding Train Drive - Moises Lopez")
     if (not cfg.DONKEY_GYM) and cfg.DRIVE_TRAIN_TYPE != "MOCK":
         from donkeycar.parts import actuator, pins
         from donkeycar.parts.actuator import TwoWheelSteeringThrottle

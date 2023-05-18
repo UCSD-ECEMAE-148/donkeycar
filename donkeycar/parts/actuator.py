@@ -12,6 +12,7 @@ from typing import Tuple
 import donkeycar as dk
 from donkeycar import utils
 from donkeycar.utils import clamp
+import struct
 
 logger = logging.getLogger(__name__)
 
@@ -184,7 +185,6 @@ class GTK():
     def __init__(self, serial_port):    
         # Import necessary libraries
         from serial import Serial
-        import struct
         import crcmod
 
         # Connect to the serial port
