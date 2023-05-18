@@ -872,6 +872,12 @@ def add_drivetrain(V, cfg):
             V.add(steering, inputs=['steering'], threaded=True)
             V.add(throttle, inputs=['throttle'], threaded=True)
 
+        elif cfg.DRIVE_TRAIN_TYPE == "GTK":
+            from donkeycar.parts.actuator import GTK
+            logger.info("Creating GTK at port {}".format(cfg.GTK_SERIAL_PORT))
+            gtk = GTK(cfg.GTK_SERIAL_PORT)
+            V.add(gtk, inputs=['steering', 'throttle'])
+
         elif cfg.DRIVE_TRAIN_TYPE == "I2C_SERVO":
             #
             # This driver is DEPRECATED in favor of 'DRIVE_TRAIN_TYPE == "PWM_STEERING_THROTTLE"'
@@ -1034,12 +1040,6 @@ def add_drivetrain(V, cfg):
                           cfg.VESC_STEERING_OFFSET
                         )
             V.add(vesc, inputs=['steering', 'throttle'])
-
-        elif cfg.DRIVE_TRAIN_TYPE == "GTK":
-            from donkeycar.parts.actuator import GTK
-            logger.info("Creating GTK at port {}".format(cfg.GTK_SERIAL_PORT))
-            gtk = GTK(cfg.GTK_SERIAL_PORT)
-            V.add(gtk, inputs=['steering', 'throttle'])
 
 
 if __name__ == '__main__':
