@@ -1035,7 +1035,7 @@ def add_drivetrain(V, cfg):
                         )
             V.add(vesc, inputs=['steering', 'throttle'])
 
-        elif cfg.DRIVE_TRAIN_TYPE == "GTK":
+        else:
             from donkeycar.parts.actuator import GTK
             logger.info("Creating GTK at port {}".format(cfg.GTK_SERIAL_PORT))
             gtk = GTK(cfg.GTK_SERIAL_PORT)
