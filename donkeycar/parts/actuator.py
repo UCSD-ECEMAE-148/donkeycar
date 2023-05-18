@@ -15,10 +15,6 @@ from donkeycar.utils import clamp
 
 logger = logging.getLogger(__name__)
 
-from serial import Serial
-import struct
-import crcmod
-
 try:
     import RPi.GPIO as GPIO
 except ImportError as e:
@@ -186,12 +182,17 @@ class PCA9685:
 
 class GTK():
     def __init__(self, serial_port):    
+        # Import necessary libraries
+        from serial import Serial
+        import struct
+        import crcmod
+
         # Connect to the serial port
         try:
             self.ser = Serial(serial_port, 115200, timeout=1)
+            logger.info(("Connected to the serial port")
         except:
-            print("Could not connect to the serial port")
-            exit(1)
+            logger.info(("Could not connect to the serial port")
 
         # Set the crc16
         self.crc16 = crcmod.mkCrcFun(0x11021, initCrc=0x0000, rev=False)
