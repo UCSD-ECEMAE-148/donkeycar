@@ -829,7 +829,7 @@ def add_imu(V, cfg):
 # Drive train setup
 #
 def add_drivetrain(V, cfg):
-
+    logger.info("Adding Train Drive - Moises Lopez")
     if (not cfg.DONKEY_GYM) and cfg.DRIVE_TRAIN_TYPE != "MOCK":
         from donkeycar.parts import actuator, pins
         from donkeycar.parts.actuator import TwoWheelSteeringThrottle
@@ -1040,8 +1040,6 @@ def add_drivetrain(V, cfg):
             logger.info("Creating GTK at port {}".format(cfg.GTK_SERIAL_PORT))
             gtk = GTK(cfg.GTK_SERIAL_PORT)
             V.add(gtk, inputs=['steering', 'throttle'])
-
-        logger.info("THis is a check akdjsalkdjl")
 
 if __name__ == '__main__':
     args = docopt(__doc__)
