@@ -198,7 +198,7 @@ class GTK():
         self.crc16 = crcmod.mkCrcFun(0x11021, initCrc=0x0000, rev=False)
 
         # Set the actuators to zero
-        self.set_vehicle_state(0, 0, 0)
+        # self.run(0, 0)
 
         # Set input values
         self.steering = 0
@@ -209,22 +209,22 @@ class GTK():
 
         self.packet_last_sent = time.time()
 
-    def run(self, steer, throttle):        
+    def run(self, angle, throttle):        
         # Check if the values are in the correct range
         if throttle < -1 or throttle > 1:
             throttle = max(min(throttle, 1), -1)
             # print(f'{Style.BRIGHT+Fore.YELLOW}Throttle value out of range, set to {throttle}{Style.RESET_ALL}')
-        if steer < -1 or steer > 1:
-            steer = max(min(steer, 1), -1)
+        if angle < -1 or angle > 1:
+            angle = max(min(angle, 1), -1)
             # print(f'{Style.BRIGHT+Fore.YELLOW}Steer value out of range, set to {steer}{Style.RESET_ALL}')
         
         # Convert the floats to bytes
         throttle = self.__float_to_byte(throttle)
-        steer = self.__float_to_byte(steer)
+        angle = self.__float_to_byte(angle)
         brake = self.__float_to_byte(0.0)
 
         # Create the packet
-        payload = b'\xAB' + throttle + steer + brake
+        payload = b'\xAB' + throttle + angle + brake
         hash = self.crc16(payload).to_bytes(2, byteorder='little')
         packet = b'\x02\x0D' + payload + hash +  b'\x03'
 
