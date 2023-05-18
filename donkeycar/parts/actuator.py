@@ -197,18 +197,6 @@ class GTK():
         # Set the crc16
         self.crc16 = crcmod.mkCrcFun(0x11021, initCrc=0x0000, rev=False)
 
-        # Set the actuators to zero
-        # self.run(0, 0)
-
-        # Set input values
-        self.steering = 0
-        self.throttle = 0
-
-        self.proposed_steering = 0
-        self.proposed_throttle = 0
-
-        self.packet_last_sent = time.time()
-
     def run(self, angle, throttle):  
         # check if angle is NoneType
         if angle is None:
