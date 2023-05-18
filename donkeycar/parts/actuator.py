@@ -190,9 +190,9 @@ class GTK():
         # Connect to the serial port
         try:
             self.ser = Serial(serial_port, 115200, timeout=1)
-            logger.info(("Connected to the serial port")
+            logger.info("Connected to the serial port")
         except:
-            logger.info(("Could not connect to the serial port")
+            logger.info("Could not connect to the serial port")
 
         # Set the crc16
         self.crc16 = crcmod.mkCrcFun(0x11021, initCrc=0x0000, rev=False)
