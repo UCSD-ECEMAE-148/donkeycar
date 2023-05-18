@@ -209,7 +209,12 @@ class GTK():
 
         self.packet_last_sent = time.time()
 
-    def run(self, angle, throttle):        
+    def run(self, angle, throttle):  
+        # check if angle is NoneType
+        if angle is None:
+            angle = 0
+        if throttle is None:
+            throttle = 0
         # Check if the values are in the correct range
         if throttle < -1 or throttle > 1:
             throttle = max(min(throttle, 1), -1)
