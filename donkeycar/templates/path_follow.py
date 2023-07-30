@@ -453,7 +453,7 @@ def drive(cfg, use_joystick=False, camera_type='single'):
                 return pilot_steering, pilot_throttle
 
     V.add(DriveMode(), 
-          inputs=['user/mode', 'user/steering', 'user/throttle',
+          inputs=['user/mode', 'user/angle', 'user/throttle',
                   'pilot/steering', 'pilot/throttle'],
           outputs=['steering', 'throttle'])
 

@@ -218,7 +218,7 @@ def calibrate(cfg):
     rc_steering = RCReceiver(cfg.STEERING_RC_GPIO, invert=True)
     rc_throttle = RCReceiver(cfg.THROTTLE_RC_GPIO)
     rc_wiper = RCReceiver(cfg.DATA_WIPER_RC_GPIO, jitter=0.05, no_action=0)
-    donkey_car.add(rc_steering, outputs=['user/angle', 'user/steering_on'])
+    donkey_car.add(rc_steering, outputs=['user/angle', 'user/angle_on'])
     donkey_car.add(rc_throttle, outputs=['user/throttle', 'user/throttle_on'])
     donkey_car.add(rc_wiper, outputs=['user/wiper', 'user/wiper_on'])
 
@@ -230,7 +230,7 @@ def calibrate(cfg):
                   (angle, steering_on, throttle, throttle_on, wiper, wiper_on))
 
     # add plotter part
-    donkey_car.add(Plotter(), inputs=['user/angle', 'user/steering_on',
+    donkey_car.add(Plotter(), inputs=['user/angle', 'user/angle_on',
                                       'user/throttle', 'user/throttle_on',
                                       'user/wiper', 'user/wiper_on'])
     # run the vehicle at 5Hz to keep network traffic down

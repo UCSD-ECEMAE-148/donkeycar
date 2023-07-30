@@ -454,7 +454,7 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
                            if pilot_throttle else 0.0
 
     V.add(DriveMode(),
-          inputs=['user/mode', 'user/steering', 'user/throttle',
+          inputs=['user/mode', 'user/angle', 'user/throttle',
                   'pilot/steering', 'pilot/throttle'],
           outputs=['steering', 'throttle'])
 
@@ -503,10 +503,10 @@ def drive(cfg, model_path=None, use_joystick=False, model_type=None,
     # add tub to save data
 
     if cfg.USE_LIDAR:
-        inputs = ['cam/image_array', 'lidar/dist_array', 'user/steering', 'user/throttle', 'user/mode']
+        inputs = ['cam/image_array', 'lidar/dist_array', 'user/angle', 'user/throttle', 'user/mode']
         types = ['image_array', 'nparray','float', 'float', 'str']
     else:
-        inputs=['cam/image_array','user/steering', 'user/throttle', 'user/mode']
+        inputs=['cam/image_array','user/angle', 'user/throttle', 'user/mode']
         types=['image_array','float', 'float','str']
 
     if cfg.HAVE_ODOM:
@@ -608,7 +608,7 @@ def add_user_controller(V, cfg, use_joystick, input_image='cam/image_array'):
     ctr = LocalWebController(port=cfg.WEB_CONTROL_PORT, mode=cfg.WEB_INIT_MODE)
     V.add(ctr,
           inputs=[input_image, 'tub/num_records', 'user/mode', 'recording'],
-          outputs=['user/steering', 'user/throttle', 'user/mode', 'recording', 'web/buttons'],
+          outputs=['user/angle', 'user/throttle', 'user/mode', 'recording', 'web/buttons'],
           threaded=True)
 
     #
@@ -624,7 +624,7 @@ def add_user_controller(V, cfg, use_joystick, input_image='cam/image_array'):
             V.add(
                 ctr,
                 inputs=['user/mode', 'recording'],
-                outputs=['user/steering', 'user/throttle',
+                outputs=['user/angle', 'user/throttle',
                          'user/mode', 'recording'],
                 threaded=False)
         else:
@@ -661,7 +661,7 @@ def add_user_controller(V, cfg, use_joystick, input_image='cam/image_array'):
             V.add(
                 ctr,
                 inputs=[input_image, 'user/mode', 'recording'],
-                outputs=['user/steering', 'user/throttle',
+                outputs=['user/angle', 'user/throttle',
                          'user/mode', 'recording'],
                 threaded=True)
     return ctr
